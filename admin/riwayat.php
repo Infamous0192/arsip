@@ -26,14 +26,22 @@
             <h3 class="panel-title">Data Riwayat Unduhan Arsip</h3>
         </div>
         <div class="panel-body">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+                <div class="d-flex">
+                    <div class="form-group">
+                        <?= renderMonthSelect('bulan'); ?>
+                    </div>
+                    <div class="form-group mx-2">
+                        <?= renderYearSelect('tahun', 2020, 2025);
+                        ?>
+                    </div>
+                </div>
 
-            <div class="pull-right">
-                <a href="riwayat_cetak.php" class="btn btn-primary"><i class="fa fa-print"></i> Cetak Data</a>
+                <div>
+                    <a href="riwayat_cetak.php?<?= getUrlParams() ?>" class="btn btn-primary"><i class="fa fa-print"></i> Cetak Data</a>
+                </div>
             </div>
 
-            <br>
-            <br>
-            <br>
             <table id="table" class="table table-bordered table-striped table-hover table-datatable">
                 <thead>
                     <tr>
@@ -44,20 +52,37 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
+                    <?php
                     include '../koneksi.php';
                     $no = 1;
-                    $saya = $_SESSION['id'];
-                    $arsip = mysqli_query($koneksi,"SELECT * FROM riwayat,arsip,user WHERE riwayat_arsip=arsip_id and riwayat_user=user_id ORDER BY riwayat_id DESC");
-                    while($p = mysqli_fetch_array($arsip)){
-                        ?>
+                    $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : '';
+                    $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : '';
+
+                    $sql = "SELECT * FROM riwayat INNER JOIN arsip ON riwayat.riwayat_arsip = arsip.arsip_id INNER JOIN user ON riwayat.riwayat_user = user.user_id";
+
+                    $conditions = [];
+                    if ($tahun) {
+                        $conditions[] = "YEAR(riwayat_waktu) = '$tahun'";
+                    }
+                    if ($bulan) {
+                        $conditions[] = "MONTH(riwayat_waktu) = '$bulan'";
+                    }
+
+                    if (count($conditions) > 0) {
+                        $sql .= " WHERE " . implode(' AND ', $conditions);
+                    }
+
+                    $sql .= " ORDER BY riwayat_id DESC";
+                    $arsip = mysqli_query($koneksi, $sql);
+                    while ($p = mysqli_fetch_array($arsip)) {
+                    ?>
                         <tr>
                             <td><?php echo $no++; ?></td>
-                            <td><?php echo date('H:i:s  d-m-Y',strtotime($p['riwayat_waktu'])) ?></td>
+                            <td><?php echo date('H:i:s  d-m-Y', strtotime($p['riwayat_waktu'])) ?></td>
                             <td><?php echo $p['user_nama'] ?></td>
                             <td><a style="color: blue" href="arsip_preview.php?id=<?php echo $p['arsip_id']; ?>"><?php echo $p['arsip_nama'] ?></a></td>
                         </tr>
-                        <?php 
+                    <?php
                     }
                     ?>
                 </tbody>
