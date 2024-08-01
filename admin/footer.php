@@ -28,6 +28,7 @@
 <script src="../assets/js/DataTables/datatables.js"></script>
 <script src="../assets/js/pdf/jquery.media.js"></script>
 <script src="../assets/js/pdf/pdf-active.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 <script type="text/javascript">
