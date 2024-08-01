@@ -26,20 +26,27 @@
             <h3 class="panel-title">Data KTP Sementara</h3>
         </div>
         <div class="panel-body">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+                <div class="d-flex">
+                    <div class="form-group">
+                        <?= renderMonthSelect('bulan'); ?>
+                    </div>
+                    <div class="form-group mx-2">
+                        <?= renderYearSelect('tahun', 2020, 2025);
+                        ?>
+                    </div>
+                </div>
 
-
-        <div class="pull-right">
-                <a href="ktp_sementara_tambah.php" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data</a>
-                <a href="ktp_sementara_cetak.php" class="btn btn-primary"><i class="fa fa-print"></i> Cetak Data</a>
+                <div>
+                    <a href="ktp_sementara_tambah.php" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data</a>
+                    <a href="ktp_sementara_cetak.php?<?= getUrlParams() ?>" class="btn btn-primary"><i class="fa fa-print"></i> Cetak Data</a>
+                </div>
             </div>
-            <br>
-            <br>
-            <br>
 
             <table id="table" class="table table-bordered table-striped table-hover table-datatable">
                 <thead>
                     <tr>
-                    <th>No</th>
+                        <th>No</th>
                         <th width="1%">Tanggal Rekaman</th>
                         <th width="5%">Nama</th>
                         <th>No KK</th>
@@ -53,12 +60,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
+                    <?php
                     include '../koneksi.php';
                     $no = 1;
-                    $ktp_sementara = mysqli_query($koneksi,"SELECT * FROM ktp_sementara");
-                    while($p = mysqli_fetch_array($ktp_sementara)){
-                        ?>
+                    $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : '';
+                    $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : '';
+
+                    $sql = "SELECT * FROM ktp_sementara";
+
+                    $conditions = [];
+                    if ($tahun) {
+                        $conditions[] = "YEAR(tgl_input) = '$tahun'";
+                    }
+                    if ($bulan) {
+                        $conditions[] = "MONTH(tgl_input) = '$bulan'";
+                    }
+
+                    if (count($conditions) > 0) {
+                        $sql .= " WHERE " . implode(' AND ', $conditions);
+                    }
+
+                    $sql .= " ORDER BY id_sementara DESC";
+
+                    $ktp_sementara = mysqli_query($koneksi, $sql);
+                    while ($p = mysqli_fetch_array($ktp_sementara)) {
+                    ?>
                         <tr>
                             <td><?php echo $no++; ?></td>
                             <td><?php echo $p['tgl_input'] ?></td>
@@ -71,29 +97,29 @@
                             <td><?php echo $p['agama'] ?></td>
                             <td><?php echo $p['negara'] ?></td>
                             <td class="text-center">
-                                <?php 
-                                if($p['id_sementara'] != 1){
-                                    ?>
+                                <?php
+                                if ($p['id_sementara'] != 1) {
+                                ?>
 
-                                <div class="modal fade" id="exampleModal_<?php echo $p['id_sementara']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">PERINGATAN!</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Apakah anda yakin ingin menghapus data ini?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batalkan</button>
-                                                <a href="ktp_sementara_hapus.php?id=<?php echo $p['id_sementara']; ?>" class="btn btn-primary"><i class="fa fa-check"></i> &nbsp; Ya, hapus</a>
+                                    <div class="modal fade" id="exampleModal_<?php echo $p['id_sementara']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">PERINGATAN!</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Apakah anda yakin ingin menghapus data ini?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batalkan</button>
+                                                    <a href="ktp_sementara_hapus.php?id=<?php echo $p['id_sementara']; ?>" class="btn btn-primary"><i class="fa fa-check"></i> &nbsp; Ya, hapus</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
                                     <div class="btn-group">
                                         <a href="ktp_sementara_edit.php?id=<?php echo $p['id_sementara']; ?>" class="btn btn-default"><i class="fa fa-wrench"></i></a>
@@ -101,12 +127,12 @@
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </div>
-                                    <?php
+                                <?php
                                 }
                                 ?>
                             </td>
                         </tr>
-                        <?php 
+                    <?php
                     }
                     ?>
                 </tbody>

@@ -3,27 +3,27 @@ include '../koneksi.php';
 
 function tgl_indo($tanggal)
 {
-  $bulan = array(
-    1 =>   'Januari',
-    'Februari',
-    'Maret',
-    'April',
-    'Mei',
-    'Juni',
-    'Juli',
-    'Agustus',
-    'September',
-    'Oktober',
-    'November',
-    'Desember'
-  );
-  $pecahkan = explode('-', $tanggal);
+    $bulan = array(
+        1 =>   'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+    );
+    $pecahkan = explode('-', $tanggal);
 
-  // variabel pecahkan 0 = tanggal
-  // variabel pecahkan 1 = bulan
-  // variabel pecahkan 2 = tahun
+    // variabel pecahkan 0 = tanggal
+    // variabel pecahkan 1 = bulan
+    // variabel pecahkan 2 = tahun
 
-  return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
+    return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
 }
 ?>
 
@@ -57,7 +57,7 @@ function tgl_indo($tanggal)
     <p align="center"><b>
 
             <font size="5">Dinas Kependudukan dan Pencatatan Sipil Barito Utara</font> <br>
-            
+
             <font size="2">Jl. Tumenggung Surapati No.44, Kec. Teweh Tengah</font> <br>
             <hr size="2px" color="black">
         </b></p>
@@ -65,7 +65,7 @@ function tgl_indo($tanggal)
     <br>
     <h3>
         <center>
-        Laporan Data KTP Sementara<br>
+            Laporan Data KTP Sementara<br>
         </center>
     </h3>
     <div class="row">
@@ -89,10 +89,29 @@ function tgl_indo($tanggal)
                     </thead>
 
                     <tbody>
-                    <?php
+                        <?php
                         $no = 0;
-                        $ktp_sementara = mysqli_query($koneksi, "select * from ktp_sementara");
-                        while($row = mysqli_fetch_array($ktp_sementara)){
+                        $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : '';
+                        $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : '';
+
+                        $sql = "SELECT * FROM ktp_sementara";
+
+                        $conditions = [];
+                        if ($tahun) {
+                            $conditions[] = "YEAR(tgl_input) = '$tahun'";
+                        }
+                        if ($bulan) {
+                            $conditions[] = "MONTH(tgl_input) = '$bulan'";
+                        }
+
+                        if (count($conditions) > 0) {
+                            $sql .= " WHERE " . implode(' AND ', $conditions);
+                        }
+
+                        $sql .= " ORDER BY id_sementara DESC";
+
+                        $ktp_sementara = mysqli_query($koneksi, $sql);
+                        while ($row = mysqli_fetch_array($ktp_sementara)) {
                         ?>
                             <tr>
                                 <td><?= ++$no; ?></td>
