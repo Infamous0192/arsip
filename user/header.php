@@ -1,3 +1,5 @@
+<?php require_once '../utils/date.php' ?>
+
 <!doctype html>
 <html>
 
@@ -65,6 +67,15 @@
                         </li>
                         <li>
                             <a href="dt_kematian.php" aria-expanded="false"><span class="educate-icon educate-data-table icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Surat Kematian</span></a>
+                        </li>
+                        <li>
+                            <a href="pengaduan.php" aria-expanded="false"><span class="educate-icon educate-data-table icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Pengaduan</span></a>
+                        </li>
+                        <li>
+                            <a href="dt_perekaman.php" aria-expanded="false"><span class="educate-icon educate-data-table icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Data Perekaman</span></a>
+                        </li>
+                        <li>
+                            <a href="surat_pindah.php" aria-expanded="false"><span class="educate-icon educate-data-table icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Surat Pindah</span></a>
                         </li>
                     </ul>
                 </nav>
