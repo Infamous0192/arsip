@@ -38,7 +38,7 @@
 
                     <form method="post" action="dt_perekaman_aksi.php" enctype="multipart/form-data">
 
-                    <div class="form-group">
+                        <div class="form-group">
                             <label>Tanggal Rekaman</label>
                             <input type="date" class="form-control" name="tgl_input" required="required">
                         </div>
@@ -97,6 +97,27 @@
 
 
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('form').addEventListener('submit', function(event) {
+            var nik = document.querySelector('input[name="nik"]').value;
+            var no_kk = document.querySelector('input[name="no_kk"]').value;
+
+            if (!/^\d{16}$/.test(nik)) {
+                alert('NIK harus terdiri dari 16 angka.');
+                event.preventDefault();
+                return;
+            }
+
+            if (!/^\d{16}$/.test(no_kk)) {
+                alert('No KK harus terdiri dari 16 angka.');
+                event.preventDefault();
+                return;
+            }
+        });
+    });
+</script>
 
 
 <?php include 'footer.php'; ?>

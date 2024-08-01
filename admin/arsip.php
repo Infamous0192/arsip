@@ -64,17 +64,24 @@
                     $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : '';
                     $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : '';
 
-                    $sql = "SELECT * FROM arsip INNER JOIN kategori ON arsip.arsip_kategori = kategori.kategori_id INNER JOIN petugas ON arsip.arsip_petugas = petugas.petugas_id";
+                    $sql = "SELECT * FROM arsip
+        INNER JOIN kategori ON arsip.arsip_kategori = kategori.kategori_id
+        INNER JOIN petugas ON arsip.arsip_petugas = petugas.petugas_id";
 
-                    if ($tahun && $bulan) {
-                        $sql .= " AND YEAR(arsip_waktu_upload) = '$tahun' AND MONTH(arsip_waktu_upload) = '$bulan'";
-                    } elseif ($tahun) {
-                        $sql .= " AND YEAR(arsip_waktu_upload) = '$tahun'";
-                    } elseif ($bulan) {
-                        $sql .= " AND MONTH(arsip_waktu_upload) = '$bulan'";
+                    $conditions = [];
+                    if ($tahun) {
+                        $conditions[] = "YEAR(arsip_waktu_upload) = '$tahun'";
+                    }
+                    if ($bulan) {
+                        $conditions[] = "MONTH(arsip_waktu_upload) = '$bulan'";
+                    }
+
+                    if (count($conditions) > 0) {
+                        $sql .= " WHERE " . implode(' AND ', $conditions);
                     }
 
                     $sql .= " ORDER BY arsip_id DESC";
+
                     $arsip = mysqli_query($koneksi, $sql);
                     while ($p = mysqli_fetch_array($arsip)) {
                     ?>

@@ -91,7 +91,26 @@ function tgl_indo($tanggal)
                     <tbody>
                     <?php
                         $no = 0;
-                        $dt_perekaman = mysqli_query($koneksi, "select * from dt_perekaman");
+                        $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : '';
+                        $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : '';
+    
+                        $sql = "SELECT * FROM dt_perekaman";
+    
+                        $conditions = [];
+                        if ($tahun) {
+                            $conditions[] = "YEAR(tgl_input) = '$tahun'";
+                        }
+                        if ($bulan) {
+                            $conditions[] = "MONTH(tgl_input) = '$bulan'";
+                        }
+    
+                        if (count($conditions) > 0) {
+                            $sql .= " WHERE " . implode(' AND ', $conditions);
+                        }
+    
+                        $sql .= " ORDER BY id_perekaman DESC";
+    
+                        $dt_perekaman = mysqli_query($koneksi, $sql);
                         while($row = mysqli_fetch_array($dt_perekaman)){
                         ?>
                             <tr>

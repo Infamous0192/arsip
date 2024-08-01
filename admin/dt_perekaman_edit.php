@@ -31,22 +31,22 @@
                 </div>
                 <div class="panel-body">
 
-                    <div class="pull-right">            
+                    <div class="pull-right">
                         <a href="dt_perekaman.php" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
                     </div>
                     <br>
                     <br>
 
-                    <?php 
-                    $id = $_GET['id'];              
+                    <?php
+                    $id = $_GET['id'];
                     $data = mysqli_query($koneksi, "select * from dt_perekaman where id_perekaman='$id'");
-                    while($d = mysqli_fetch_array($data)){
-                        ?>
+                    while ($d = mysqli_fetch_array($data)) {
+                    ?>
 
                         <form method="post" action="dt_perekaman_update.php">
 
 
-                        <div class="form-group">
+                            <div class="form-group">
                                 <label>Tanggal Rekaman</label>
                                 <input type="hidden" name="id" value="<?php echo $d['id_perekaman']; ?>">
                                 <input type="date" class="form-control" name="tgl_input" required="required" value="<?php echo $d['tgl_input']; ?>">
@@ -107,7 +107,7 @@
 
                         </form>
 
-                        <?php 
+                    <?php
                     }
                     ?>
 
@@ -118,6 +118,27 @@
 
 
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('form').addEventListener('submit', function(event) {
+            var nik = document.querySelector('input[name="nik"]').value;
+            var no_kk = document.querySelector('input[name="no_kk"]').value;
+
+            if (!/^\d{16}$/.test(nik)) {
+                alert('NIK harus terdiri dari 16 angka.');
+                event.preventDefault();
+                return;
+            }
+
+            if (!/^\d{16}$/.test(no_kk)) {
+                alert('No KK harus terdiri dari 16 angka.');
+                event.preventDefault();
+                return;
+            }
+        });
+    });
+</script>
 
 
 <?php include 'footer.php'; ?>
