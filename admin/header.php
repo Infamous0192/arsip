@@ -85,6 +85,15 @@
                         <li>
                             <a href="riwayat.php" aria-expanded="false"><span class="educate-icon educate-project icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Riwayat Unduh</span></a>
                         </li>
+                        <li>
+                            <a href="pengaduan.php" aria-expanded="false"><span class="educate-icon educate-data-table icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Pengaduan</span></a>
+                        </li>
+                        <li>
+                            <a href="layanan.php" aria-expanded="false"><span class="educate-icon educate-data-table icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Layanan Online</span></a>
+                        </li>
+                        <li>
+                            <a href="surat_pindah.php" aria-expanded="false"><span class="educate-icon educate-data-table icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Surat Pindah</span></a>
+                        </li>
 
                     </ul>
                 </nav>
