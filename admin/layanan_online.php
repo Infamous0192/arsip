@@ -38,7 +38,7 @@
                 </div>
 
                 <div>
-                    <a href="layanan_online_tambah.php" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Penggunaan</a>
+                    <!-- <a href="layanan_online_tambah.php" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Penggunaan</a> -->
                     <a href="layanan_online_cetak.php?<?= getUrlParams() ?>" class="btn btn-primary"><i class="fa fa-print"></i> Cetak Data</a>
                 </div>
             </div>

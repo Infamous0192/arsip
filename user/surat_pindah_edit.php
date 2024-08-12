@@ -54,7 +54,7 @@
 
                             <div class="form-group">
                                 <label>Nama User</label>
-                                <input type="text" class="form-control" name="nama_user" required="required" value="<?php echo $d['nama_user']; ?>">
+                                <input type="text" class="form-control" name="nama_user" readonly required="required" value="<?php echo $d['nama_user']; ?>">
                             </div>
 
                             <div class="form-group">

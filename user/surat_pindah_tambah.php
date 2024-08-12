@@ -45,7 +45,7 @@
 
                         <div class="form-group">
                             <label>Nama User</label>
-                            <input type="text" class="form-control" name="nama_user" required="required">
+                            <input type="text" class="form-control" name="nama_user" required="required" readonly value="<?= $_SESSION['nama'] ?>">
                         </div>
 
                         <div class="form-group">
