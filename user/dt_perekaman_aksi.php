@@ -14,4 +14,5 @@ $tanggal = date('Y-m-d');
 
 mysqli_query($koneksi, "insert into dt_perekaman values (NULL,'$tgl_input','$nama','$no_kk','$nik','$tempat_lahir','$tgl_lahir','$alamat','$agama','$negara')");
 mysqli_query($koneksi, "INSERT INTO layanan_online (tanggal, nama_user, jenis_pelayanan) VALUES ('$tanggal', '{$_SESSION['nama']}', 'perekaman')");
+mysqli_query($koneksi, "INSERT INTO penerbitan (tanggal, nama_user, jenis_dokumen) VALUES ('$tanggal', '{$_SESSION['nama']}', 'perekaman')");
 header("location:dt_perekaman.php");

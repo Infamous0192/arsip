@@ -8,5 +8,6 @@ $alasan_pindah = $_POST['alasan_pindah'];
 $alamat_pindah = $_POST['alamat_pindah'];
 
 mysqli_query($koneksi, "INSERT INTO surat_pindah VALUES (NULL, '$tanggal', '$nama_user', '$nik', '$kk', '$alasan_pindah', '$alamat_pindah')");
+mysqli_query($koneksi, "INSERT INTO penerbitan (tanggal, nama_user, jenis_dokumen) VALUES ('$tanggal', '$nama_user', 'surat pindah')");
 header("location:surat_pindah.php");
 ?>

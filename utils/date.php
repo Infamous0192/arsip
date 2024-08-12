@@ -43,5 +43,8 @@ function getUrlParams() {
     if (isset($_GET['tahun']) && !empty($_GET['tahun'])) {
         $params[] = 'tahun=' . $_GET['tahun'];
     }
+    if (isset($_GET['jenis']) && !empty($_GET['jenis'])) {
+        $params[] = 'jenis=' . $_GET['jenis'];
+    }
     return implode('&', $params);
 }

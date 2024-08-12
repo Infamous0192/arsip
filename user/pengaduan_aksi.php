@@ -7,5 +7,6 @@ $keterangan = $_POST['keterangan'];
 
 mysqli_query($koneksi, "INSERT INTO pengaduan VALUES (NULL, '$tanggal', '$nama_user', '$kategori_pengaduan', '$keterangan')");
 mysqli_query($koneksi, "INSERT INTO layanan_online VALUES (NULL, '$tanggal', '$nama_user', 'pengaduan')");
+mysqli_query($koneksi, "INSERT INTO penerbitan (tanggal, nama_user, jenis_dokumen) VALUES ('$tanggal', '$nama_user', 'pengaduan')");
 header("location:pengaduan.php");
 ?>

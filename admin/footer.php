@@ -35,17 +35,22 @@
 	document.addEventListener('DOMContentLoaded', function() {
 		document.getElementById('bulan').addEventListener('change', updatePage);
 		document.getElementById('tahun').addEventListener('change', updatePage);
+		document.getElementById('jenis').addEventListener('change', updatePage);
 	});
 
 	function updatePage() {
 		var bulan = document.getElementById('bulan').value;
 		var tahun = document.getElementById('tahun').value;
+		var jenis = document.getElementById('jenis').value;
 		var params = [];
 		if (bulan) {
 			params.push('bulan=' + bulan);
 		}
 		if (tahun) {
 			params.push('tahun=' + tahun);
+		}
+		if (jenis) {
+			params.push('jenis=' + jenis);
 		}
 		var queryString = params.join('&');
 		if (queryString) {
