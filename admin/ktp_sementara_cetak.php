@@ -53,20 +53,17 @@ function tgl_indo($tanggal)
 </head>
 
 <body>
-    <img src="../assets/img/logo/barut.png" align="left" width="8%">
-    <p align="center"><b>
+    <div style="display: flex; align-items: center; justify-content: center;">
+        <img src="../assets/img/logo/barut.png" height="76px" style="margin-right: 4px;">
 
-            <font size="5">Dinas Kependudukan dan Pencatatan Sipil Barito Utara</font> <br>
-
-            <font size="2">Jl. Tumenggung Surapati No.44, Kec. Teweh Tengah</font> <br>
-            <hr size="2px" color="black">
-        </b></p>
-    <br>
-    <br>
-    <h3>
-        <center>
-            Laporan Data KTP Sementara<br>
-        </center>
+        <p align="center"><b>
+                <font size="5">Dinas Kependudukan dan Pencatatan Sipil Barito Utara</font> <br>
+                <font size="2">Jl. Tumenggung Surapati No.44, Kec. Teweh Tengah</font> <br>
+        </p>
+    </div>
+    <hr size="2px" color="black">
+    <h3 style="text-align: center;">
+        Laporan Data KTP Sementara <?= isset($_GET['bulan']) ? getMonthName((int)$_GET['bulan']) : '' ?> <?= isset($_GET['tahun']) ? $_GET['tahun'] : '' ?>
     </h3>
     <div class="row">
         <div class="col-sm-12">

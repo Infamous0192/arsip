@@ -2,6 +2,25 @@
 require '../assets/fpdf184/fpdf.php';
 include '../koneksi.php';
 
+function getMonthName($monthNumber)
+{
+    $months = [
+        1 => 'Januari',
+        2 => 'Februari',
+        3 => 'Maret',
+        4 => 'April',
+        5 => 'Mei',
+        6 => 'Juni',
+        7 => 'Juli',
+        8 => 'Agustus',
+        9 => 'September',
+        10 => 'Oktober',
+        11 => 'November',
+        12 => 'Desember'
+    ];
+    return isset($months[$monthNumber]) ? $months[$monthNumber] : '';
+}
+
 $pdf = new FPDF('L', 'mm', 'A4');
 $pdf->AddPage();
 $pdf->SetTitle('Laporan Arsip Digital');
@@ -17,7 +36,7 @@ $pdf->Cell(280, 10, "Jl. Tumenggung Surapati No.44, Kec. Teweh Tengah", 0, 1, "C
 $pdf->line(80, 30, 220, 30);
 $pdf->ln();
 $pdf->SetFont("Arial", "B", "14");
-$pdf->Cell(280, 10, "Laporan Arsip Petugas", 0, 1, 'C');
+$pdf->Cell(280, 10, "Laporan Arsip Petugas" . ' ' . (isset($_GET['bulan']) ? getMonthName((int)$_GET['bulan']) : '') . ' ' . (isset($_GET['tahun']) ? $_GET['tahun'] : ''), 0, 1, 'C');
 $pdf->ln(1);
 $pdf->Cell(20, 15, '', 0, 0, 'c');
 
@@ -53,7 +72,6 @@ if (count($conditions) > 0) {
 
 $sql .= " ORDER BY arsip_id DESC";
 
-$sql .= " ORDER BY arsip_id DESC";
 $arsip = mysqli_query($koneksi, $sql);
 while ($row = mysqli_fetch_array($arsip)) {
     $pdf->Cell(20, 7, '', 0, 0, 'c');

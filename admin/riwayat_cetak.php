@@ -2,6 +2,25 @@
 require '../assets/fpdf184/fpdf.php';
 include '../koneksi.php';
 
+function getMonthName($monthNumber)
+{
+    $months = [
+        1 => 'Januari',
+        2 => 'Februari',
+        3 => 'Maret',
+        4 => 'April',
+        5 => 'Mei',
+        6 => 'Juni',
+        7 => 'Juli',
+        8 => 'Agustus',
+        9 => 'September',
+        10 => 'Oktober',
+        11 => 'November',
+        12 => 'Desember'
+    ];
+    return isset($months[$monthNumber]) ? $months[$monthNumber] : '';
+}
+
 $pdf = new FPDF('P', 'cm', 'A4');
 $pdf->AddPage();
 $pdf->SetTitle('Laporan Arsip Digital');
@@ -17,7 +36,7 @@ $pdf->Cell(19, 1, "Jl. Tumenggung Surapati No. 44, Kec. Teweh Tengah", 0, 1, "C"
 $pdf->line(3, 3, 18, 3);
 $pdf->ln();
 $pdf->SetFont("Arial", "B", "14");
-$pdf->Cell(19, 1, "Laporan Riwayat Unduh Arsip", 0, 1, 'C');
+$pdf->Cell(19, 1, "Laporan Riwayat Unduh Arsip" . ' ' . (isset($_GET['bulan']) ? getMonthName((int)$_GET['bulan']) : '') . ' ' . (isset($_GET['tahun']) ? $_GET['tahun'] : ''), 0, 1, 'C');
 $pdf->ln(0);
 $pdf->Cell(2, 1, '', 0, 0, 'c');
 

@@ -3,27 +3,46 @@ include '../koneksi.php';
 
 function tgl_indo($tanggal)
 {
-  $bulan = array(
-    1 =>   'Januari',
-    'Februari',
-    'Maret',
-    'April',
-    'Mei',
-    'Juni',
-    'Juli',
-    'Agustus',
-    'September',
-    'Oktober',
-    'November',
-    'Desember'
-  );
-  $pecahkan = explode('-', $tanggal);
+    $bulan = array(
+        1 =>   'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+    );
+    $pecahkan = explode('-', $tanggal);
 
-  // variabel pecahkan 0 = tanggal
-  // variabel pecahkan 1 = bulan
-  // variabel pecahkan 2 = tahun
+    // variabel pecahkan 0 = tanggal
+    // variabel pecahkan 1 = bulan
+    // variabel pecahkan 2 = tahun
 
-  return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
+    return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
+}
+
+function getMonthName($monthNumber)
+{
+    $months = [
+        1 => 'Januari',
+        2 => 'Februari',
+        3 => 'Maret',
+        4 => 'April',
+        5 => 'Mei',
+        6 => 'Juni',
+        7 => 'Juli',
+        8 => 'Agustus',
+        9 => 'September',
+        10 => 'Oktober',
+        11 => 'November',
+        12 => 'Desember'
+    ];
+    return isset($months[$monthNumber]) ? $months[$monthNumber] : '';
 }
 ?>
 
@@ -53,20 +72,17 @@ function tgl_indo($tanggal)
 </head>
 
 <body>
-    <img src="../assets/img/logo/barut.png" align="left" width="8%">
-    <p align="center"><b>
+    <div style="display: flex; align-items: center; justify-content: center;">
+        <img src="../assets/img/logo/barut.png" height="76px" style="margin-right: 4px;">
 
-            <font size="5">Dinas Kependudukan dan Pencatatan Sipil Barito Utara</font> <br>
-            
-            <font size="2">Jl. Tumenggung Surapati No.44, Kec. Teweh Tengah</font> <br>
-            <hr size="2px" color="black">
-        </b></p>
-    <br>
-    <br>
-    <h3>
-        <center>
-        Laporan Perekaman<br>
-        </center>
+        <p align="center"><b>
+                <font size="5">Dinas Kependudukan dan Pencatatan Sipil Barito Utara</font> <br>
+                <font size="2">Jl. Tumenggung Surapati No.44, Kec. Teweh Tengah</font> <br>
+        </p>
+    </div>
+    <hr size="2px" color="black">
+    <h3 style="text-align: center;">
+        Laporan Perekaman <?= isset($_GET['bulan']) ? getMonthName((int)$_GET['bulan']) : '' ?> <?= isset($_GET['tahun']) ? $_GET['tahun'] : '' ?>
     </h3>
     <div class="row">
         <div class="col-sm-12">
@@ -89,13 +105,13 @@ function tgl_indo($tanggal)
                     </thead>
 
                     <tbody>
-                    <?php
+                        <?php
                         $no = 0;
                         $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : '';
                         $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : '';
-    
+
                         $sql = "SELECT * FROM dt_perekaman";
-    
+
                         $conditions = [];
                         if ($tahun) {
                             $conditions[] = "YEAR(tgl_input) = '$tahun'";
@@ -103,15 +119,15 @@ function tgl_indo($tanggal)
                         if ($bulan) {
                             $conditions[] = "MONTH(tgl_input) = '$bulan'";
                         }
-    
+
                         if (count($conditions) > 0) {
                             $sql .= " WHERE " . implode(' AND ', $conditions);
                         }
-    
+
                         $sql .= " ORDER BY id_perekaman DESC";
-    
+
                         $dt_perekaman = mysqli_query($koneksi, $sql);
-                        while($row = mysqli_fetch_array($dt_perekaman)){
+                        while ($row = mysqli_fetch_array($dt_perekaman)) {
                         ?>
                             <tr>
                                 <td><?= ++$no; ?></td>
