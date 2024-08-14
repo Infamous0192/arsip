@@ -1,5 +1,4 @@
 <?php
-require '../assets/fpdf184/fpdf.php';
 include '../koneksi.php';
 
 function getMonthName($monthNumber)
@@ -20,59 +19,99 @@ function getMonthName($monthNumber)
     ];
     return isset($months[$monthNumber]) ? $months[$monthNumber] : '';
 }
+?>
 
-$pdf = new FPDF('P', 'cm', 'A4');
-$pdf->AddPage();
-$pdf->SetTitle('Laporan Arsip Digital');
+<script type="text/javascript">
+    var css = '@page { size: portrait; }',
+        head = document.head || document.getElementsByTagName('head')[0],
+        style = document.createElement('style');
 
-$pdf->SetFont("Arial", "B", "14");
+    style.type = 'text/css';
+    style.media = 'print';
 
-$pdf->Image('../assets/img/logo/barut.png', 1, 1, 2, 2);
+    if (style.styleSheet) {
+        style.styleSheet.cssText = css;
+    } else {
+        style.appendChild(document.createTextNode(css));
+    }
 
-$pdf->Cell(19, 1, "Dinas Kependudukan dan Pencatatan Sipil Barito Utara", 0, 1, "C");
-$pdf->SetFont("Arial", "", "10");
-$pdf->Cell(19, 1, "Jl. Tumenggung Surapati No. 44, Kec. Teweh Tengah", 0, 1, "C");
+    head.appendChild(style);
+    window.print();
+</script>
 
-$pdf->line(3, 3, 18, 3);
-$pdf->ln();
-$pdf->SetFont("Arial", "B", "14");
-$pdf->Cell(19, 1, "Laporan Riwayat Unduh Arsip" . ' ' . (isset($_GET['bulan']) ? getMonthName((int)$_GET['bulan']) : '') . ' ' . (isset($_GET['tahun']) ? $_GET['tahun'] : ''), 0, 1, 'C');
-$pdf->ln(0);
-$pdf->Cell(2, 1, '', 0, 0, 'c');
+<!DOCTYPE html>
+<html>
 
-$pdf->SetFillColor(255, 40, 20);
+<head>
+    <title>Laporan Riwayat Unduh Arsip</title>
+</head>
 
-$pdf->SetFont("Arial", "B", "9");
-$pdf->Cell(3, 1, 'No', 1, 0, 'C', 1);
-$pdf->Cell(5, 1, 'Waktu Unduh', 1, 0, 'C', 1);
-$pdf->Cell(3, 1, 'Nama User', 1, 0, 'C', 1);
-$pdf->Cell(3, 1, 'Nama Arsip', 1, 1, 'C', 1);
-$pdf->SetFont("Arial", "", "9");
-$no = 1;
-$tahun = isset($_GET['tahun']) ? $_GET['tahun'] : '';
-$bulan = isset($_GET['bulan']) ? $_GET['bulan'] : '';
+<body>
+    <div style="display: flex; align-items: center; justify-content: center;">
+        <img src="../assets/img/logo/barut.png" height="50px" style="margin-right: 4px;">
+        <p align="center"><b>
+                <font size="5">Dinas Kependudukan dan Pencatatan Sipil Barito Utara</font><br>
+                <font size="2">Jl. Tumenggung Surapati No. 44, Kec. Teweh Tengah</font><br>
+        </p>
+    </div>
+    <hr size="2px" color="black">
+    <h3 style="text-align: center;">
+        Laporan Riwayat Unduh Arsip <?= isset($_GET['bulan']) ? getMonthName((int)$_GET['bulan']) : '' ?> <?= isset($_GET['tahun']) ? $_GET['tahun'] : '' ?>
+    </h3>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
+                <table border="1" cellspacing="0" width="100%">
+                    <thead bgcolor=$danger>
+                        <tr>
+                            <th>No</th>
+                            <th>Waktu Unduh</th>
+                            <th>Nama User</th>
+                            <th>Nama Arsip</th>
+                        </tr>
+                    </thead>
 
-$sql = "SELECT * FROM riwayat INNER JOIN arsip ON riwayat.riwayat_arsip = arsip.arsip_id INNER JOIN user ON riwayat.riwayat_user = user.user_id";
+                    <tbody>
+                        <?php
+                        $no = 1;
+                        $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : '';
+                        $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : '';
 
-$conditions = [];
-if ($tahun) {
-    $conditions[] = "YEAR(riwayat_waktu) = '$tahun'";
-}
-if ($bulan) {
-    $conditions[] = "MONTH(riwayat_waktu) = '$bulan'";
-}
+                        $sql = "SELECT * FROM riwayat 
+                                INNER JOIN arsip ON riwayat.riwayat_arsip = arsip.arsip_id 
+                                INNER JOIN user ON riwayat.riwayat_user = user.user_id";
 
-if (count($conditions) > 0) {
-    $sql .= " WHERE " . implode(' AND ', $conditions);
-}
+                        $conditions = [];
+                        if ($tahun) {
+                            $conditions[] = "YEAR(riwayat_waktu) = '$tahun'";
+                        }
+                        if ($bulan) {
+                            $conditions[] = "MONTH(riwayat_waktu) = '$bulan'";
+                        }
 
-$sql .= " ORDER BY riwayat_id DESC";
-$riwayat = mysqli_query($koneksi, $sql);
-while ($row = mysqli_fetch_array($riwayat)) {
-    $pdf->Cell(2, 1, '', 0, 0, 'c');
-    $pdf->Cell(3, 2, $row['riwayat_id'], 1, 0, 'C');
-    $pdf->Cell(5, 2, $row['riwayat_waktu'], 1, 0);
-    $pdf->Cell(3, 2, $row['riwayat_user'], 1, 0, 'C');
-    $pdf->Cell(3, 2, $row['arsip_nama'], 1, 1, 'C');
-}
-$pdf->output();
+                        if (count($conditions) > 0) {
+                            $sql .= " WHERE " . implode(' AND ', $conditions);
+                        }
+
+                        $sql .= " ORDER BY riwayat_id DESC";
+
+                        $riwayat = mysqli_query($koneksi, $sql);
+                        while ($row = mysqli_fetch_array($riwayat)) {
+                        ?>
+                            <tr>
+                                <td><?= $no++; ?></td>
+                                <td><?= $row['riwayat_waktu']; ?></td>
+                                <td><?= $row['user_name']; ?></td>
+                                <td><?= $row['arsip_nama']; ?></td>
+                            </tr>
+                    </tbody>
+                <?php } ?>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+</body>
+
+</html>

@@ -65,9 +65,9 @@
                         <li>
                             <a href="arsip.php" aria-expanded="false"><span class="educate-icon educate-data-table icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Data Arsip</span></a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="dt_kematian.php" aria-expanded="false"><span class="educate-icon educate-data-table icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Surat Kematian</span></a>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="pengaduan.php" aria-expanded="false"><span class="educate-icon educate-data-table icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Pengaduan</span></a>
                         </li>

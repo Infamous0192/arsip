@@ -1,6 +1,26 @@
 <?php
-require '../assets/fpdf184/fpdf.php';
 include '../koneksi.php';
+
+function tgl_indo($tanggal)
+{
+    $bulan = array(
+        1 => 'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+    );
+    $pecahkan = explode('-', $tanggal);
+
+    return $pecahkan[2] . ' ' . $bulan[(int)$pecahkan[1]] . ' ' . $pecahkan[0];
+}
 
 function getMonthName($monthNumber)
 {
@@ -20,67 +40,107 @@ function getMonthName($monthNumber)
     ];
     return isset($months[$monthNumber]) ? $months[$monthNumber] : '';
 }
+?>
 
-$pdf = new FPDF('L', 'mm', 'A4');
-$pdf->AddPage();
-$pdf->SetTitle('Laporan Arsip Digital');
+<script type="text/javascript">
+    var css = '@page { size: landscape; }',
+        head = document.head || document.getElementsByTagName('head')[0],
+        style = document.createElement('style');
 
-$pdf->SetFont("Arial", "B", "14");
+    style.type = 'text/css';
+    style.media = 'print';
 
-$pdf->Image('../assets/img/logo/barut.png', 60, 10, 20, 20);
+    if (style.styleSheet) {
+        style.styleSheet.cssText = css;
+    } else {
+        style.appendChild(document.createTextNode(css));
+    }
 
-$pdf->Cell(280, 10, "Dinas Kependudukan dan Pencatatan Sipil Barito Utara", 0, 1, "C");
-$pdf->SetFont("Arial", "", "10");
-$pdf->Cell(280, 10, "Jl. Tumenggung Surapati No.44, Kec. Teweh Tengah", 0, 1, "C");
+    head.appendChild(style);
+    window.print();
+</script>
 
-$pdf->line(80, 30, 220, 30);
-$pdf->ln();
-$pdf->SetFont("Arial", "B", "14");
-$pdf->Cell(280, 10, "Laporan Arsip Petugas" . ' ' . (isset($_GET['bulan']) ? getMonthName((int)$_GET['bulan']) : '') . ' ' . (isset($_GET['tahun']) ? $_GET['tahun'] : ''), 0, 1, 'C');
-$pdf->ln(1);
-$pdf->Cell(20, 15, '', 0, 0, 'c');
+<!DOCTYPE html>
+<html>
 
-$pdf->SetFillColor(255, 40, 20);
+<head>
+    <title>Laporan Arsip Digital</title>
+</head>
 
-$pdf->SetFont("Arial", "B", "9");
-$pdf->Cell(20, 7, 'ID Arsip', 1, 0, 'C', 1);
-$pdf->Cell(40, 7, 'Waktu Upload', 1, 0, 'C', 1);
-$pdf->Cell(30, 7, 'Kode Arsip', 1, 0, 'C', 1);
-$pdf->Cell(50, 7, 'Nama Arsip', 1, 0, 'C', 1);
-$pdf->Cell(20, 7, 'Jenis Arsip', 1, 0, 'C', 1);
-$pdf->Cell(30, 7, 'Keterangan Arsip', 1, 0, 'C', 1);
-$pdf->Cell(52, 7, 'File Arsip', 1, 1, 'C', 1);
-$pdf->SetFont("Arial", "", "9");
-$tahun = isset($_GET['tahun']) ? $_GET['tahun'] : '';
-$bulan = isset($_GET['bulan']) ? $_GET['bulan'] : '';
+<body>
+    <div style="display: flex; align-items: center; justify-content: center;">
+        <img src="../assets/img/logo/barut.png" height="76px" style="margin-right: 4px;">
+        <p align="center"><b>
+                <font size="5">Dinas Kependudukan dan Pencatatan Sipil Barito Utara</font><br>
+                <font size="2">Jl. Tumenggung Surapati No.44, Kec. Teweh Tengah</font><br>
+        </p>
+    </div>
+    <hr size="2px" color="black">
+    <h3 style="text-align: center;">
+        Laporan Arsip Petugas <?= isset($_GET['bulan']) ? getMonthName((int)$_GET['bulan']) : '' ?> <?= isset($_GET['tahun']) ? $_GET['tahun'] : '' ?>
+    </h3>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
+                <table border="1" cellspacing="0" width="100%">
+                    <thead bgcolor=$danger>
+                        <tr>
+                            <th>No</th>
+                            <th>ID Arsip</th>
+                            <th>Waktu Upload</th>
+                            <th>Kode Arsip</th>
+                            <th>Nama Arsip</th>
+                            <th>Jenis Arsip</th>
+                            <th>Keterangan Arsip</th>
+                            <th>File Arsip</th>
+                        </tr>
+                    </thead>
 
-$sql = "SELECT * FROM arsip
-        INNER JOIN kategori ON arsip.arsip_kategori = kategori.kategori_id
-        INNER JOIN petugas ON arsip.arsip_petugas = petugas.petugas_id";
+                    <tbody>
+                        <?php
+                        $no = 0;
+                        $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : '';
+                        $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : '';
 
-$conditions = [];
-if ($tahun) {
-    $conditions[] = "YEAR(arsip_waktu_upload) = '$tahun'";
-}
-if ($bulan) {
-    $conditions[] = "MONTH(arsip_waktu_upload) = '$bulan'";
-}
+                        $sql = "SELECT * FROM arsip
+                                INNER JOIN kategori ON arsip.arsip_kategori = kategori.kategori_id
+                                INNER JOIN petugas ON arsip.arsip_petugas = petugas.petugas_id";
 
-if (count($conditions) > 0) {
-    $sql .= " WHERE " . implode(' AND ', $conditions);
-}
+                        $conditions = [];
+                        if ($tahun) {
+                            $conditions[] = "YEAR(arsip_waktu_upload) = '$tahun'";
+                        }
+                        if ($bulan) {
+                            $conditions[] = "MONTH(arsip_waktu_upload) = '$bulan'";
+                        }
 
-$sql .= " ORDER BY arsip_id DESC";
+                        if (count($conditions) > 0) {
+                            $sql .= " WHERE " . implode(' AND ', $conditions);
+                        }
 
-$arsip = mysqli_query($koneksi, $sql);
-while ($row = mysqli_fetch_array($arsip)) {
-    $pdf->Cell(20, 7, '', 0, 0, 'c');
-    $pdf->Cell(20, 7, $row['arsip_id'], 1, 0, 'C');
-    $pdf->Cell(40, 7, $row['arsip_waktu_upload'], 1, 0);
-    $pdf->Cell(30, 7, $row['arsip_kode'], 1, 0);
-    $pdf->Cell(50, 7, $row['arsip_nama'], 1, 0);
-    $pdf->Cell(20, 7, $row['arsip_jenis'], 1, 0);
-    $pdf->Cell(30, 7, $row['arsip_keterangan'], 1, 0);
-    $pdf->Cell(52, 7, $row['arsip_file'], 1, 1);
-}
-$pdf->output();
+                        $sql .= " ORDER BY arsip_id DESC";
+
+                        $arsip = mysqli_query($koneksi, $sql);
+                        while ($row = mysqli_fetch_array($arsip)) {
+                        ?>
+                            <tr>
+                                <td><?= ++$no; ?></td>
+                                <td><?= $row['arsip_id']; ?></td>
+                                <td><?= $row['arsip_waktu_upload']; ?></td>
+                                <td><?= $row['arsip_kode']; ?></td>
+                                <td><?= $row['arsip_nama']; ?></td>
+                                <td><?= $row['arsip_jenis']; ?></td>
+                                <td><?= $row['arsip_keterangan']; ?></td>
+                                <td><?= $row['arsip_file']; ?></td>
+                            </tr>
+                    </tbody>
+                <?php } ?>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+</body>
+
+</html>
