@@ -108,6 +108,7 @@
                             <td class="text-center">
                                 <div class="btn-group">
                                     <!-- <a target="_blank" class="btn btn-default" href="../arsip/<?php echo $p['arsip_file']; ?>"><i class="fa fa-download"></i></a> -->
+                                    <a href="arsip_edit.php?id=<?= $p['arsip_id']; ?>" class="btn btn-default"><i class="fa fa-wrench"></i></a>
                                     <a target="_blank" class="btn btn-default" href="arsip_download.php?id=<?php echo $p['arsip_id']; ?>"><i class="fa fa-download"></i></a>
                                     <a target="_blank" href="arsip_preview.php?id=<?php echo $p['arsip_id']; ?>" class="btn btn-default"><i class="fa fa-search"></i> Preview</a>
                                 </div>

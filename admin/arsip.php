@@ -124,6 +124,7 @@
 
 
                                 <div class="btn-group">
+                                    <a href="arsip_edit.php?id=<?= $p['arsip_id']; ?>" class="btn btn-default"><i class="fa fa-wrench"></i></a>
                                     <a target="_blank" class="btn btn-default" href="../arsip/<?php echo $p['arsip_file']; ?>"><i class="fa fa-download"></i></a>
                                     <a target="_blank" href="arsip_preview.php?id=<?php echo $p['arsip_id']; ?>" class="btn btn-default"><i class="fa fa-search"></i> Preview</a>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal_<?php echo $p['arsip_id']; ?>">
