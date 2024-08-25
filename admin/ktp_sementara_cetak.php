@@ -67,7 +67,7 @@ function getMonthName($monthNumber)
 <html>
 
 <head>
-    <title>Laporan Data KTP Sementara</title>
+    <title>Laporan KTP Sementara</title>
 </head>
 
 <body>
@@ -81,7 +81,7 @@ function getMonthName($monthNumber)
     </div>
     <hr size="2px" color="black">
     <h3 style="text-align: center;">
-        Laporan Data KTP Sementara <?= isset($_GET['bulan']) ? getMonthName((int)$_GET['bulan']) : '' ?> <?= isset($_GET['tahun']) ? $_GET['tahun'] : '' ?>
+        Laporan KTP Sementara <?= isset($_GET['bulan']) ? getMonthName((int)$_GET['bulan']) : '' ?> <?= isset($_GET['tahun']) ? $_GET['tahun'] : '' ?>
     </h3>
     <div class="row">
         <div class="col-sm-12">

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Login Administrator | Arsip Digital</title>
+    <title>Register | Arsip Digital</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
@@ -36,7 +36,7 @@
                 <?php
                 if (isset($_GET['alert'])) {
                     if ($_GET['alert'] == "gagal") {
-                        echo "<div class='alert alert-danger'>USERNAME ATAU PASSWORD ANDA SALAH</div>";
+                        echo "<div class='alert alert-danger'>REGISTER GAGAL</div>";
                     }
                 }
                 ?>
@@ -52,12 +52,16 @@
                             <h3>DINAS KEPENDUDUKAN DAN</h3>
                             <h3>PENCATATAN SIPIL BARITO UTARA</h3>
                             <br>
-                            <h4>LOGIN PAGE</h4>
+                            <h4>REGISTER PAGE</h4>
                         </center>
                         <br>
                         <br>
 
-                        <form action="periksa_login.php" method="POST" id="loginForm">
+                        <form action="register_aksi.php" method="POST" id="loginForm" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label class="control-label" for="name">Nama</label>
+                                <input type="text" placeholder="name" title="Please enter you name" required="required" autocomplete="off" name="name" id="name" class="form-control">
+                            </div>
                             <div class="form-group">
                                 <label class="control-label" for="username">Username</label>
                                 <input type="text" placeholder="username" title="Please enter you username" required="required" autocomplete="off" name="username" id="username" class="form-control">
@@ -66,19 +70,16 @@
                                 <label class="control-label" for="password">Password</label>
                                 <input type="password" title="Please enter your password" placeholder="******" required="required" autocomplete="off" name="password" id="password" class="form-control">
                             </div>
-                            <div class="form-group">
-                                <label class="control-label" for="password">Hak Akses</label>
-                                <select class="form-control" name="akses">
-                                    <option value="admin">ADMIN</option>
-                                    <option value="user">USER</option>
-                                </select>
 
+                            <div class="form-group">
+                                <label class="control-label" for="foto">Foto</label>
+                                <input type="file" title="Please enter your photo" required="required" name="foto" id="foto" class="form-control">
                             </div>
 
-                            <input type="submit" class="btn btn-success btn-block loginbtn" value="Login">
+                            <input type="submit" class="btn btn-success btn-block loginbtn" value="Register">
 
-                            <a href="register.php" class="btn btn-primary btn-block" style="color:white">
-                                New User
+                            <a href="login.php" class="btn btn-primary btn-block" style="color:white">
+                                Login
                             </a>
                         </form>
 

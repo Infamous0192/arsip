@@ -67,7 +67,7 @@ function getMonthName($monthNumber)
 <html>
 
 <head>
-    <title>Data Jumlah Penerbitan Dokumen Kependudukan</title>
+    <title>Laporan Jumlah Penerbitan Dokumen Kependudukan</title>
 </head>
 
 <body>
@@ -81,7 +81,7 @@ function getMonthName($monthNumber)
     </div>
     <hr size="2px" color="black">
     <h3 style="text-align: center;">
-        Data Jumlah Penerbitan Dokumen Kependudukan <?= isset($_GET['bulan']) ? getMonthName((int)$_GET['bulan']) : '' ?> <?= isset($_GET['tahun']) ? $_GET['tahun'] : '' ?>
+        Laporan Jumlah Penerbitan Dokumen Kependudukan <?= isset($_GET['bulan']) ? getMonthName((int)$_GET['bulan']) : '' ?> <?= isset($_GET['tahun']) ? $_GET['tahun'] : '' ?>
     </h3>
     <div class="row">
         <div class="col-sm-12">

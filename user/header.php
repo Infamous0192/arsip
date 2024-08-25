@@ -112,7 +112,6 @@
                                             <ul class="nav navbar-nav mai-top-nav">
                                                 <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
                                                 <li class="nav-item"><a href="arsip.php" class="nav-link">Data Arsip</a></li>
-                                                <li class="nav-item"><a href="dt_surat_kematian.php" class="nav-link">Data Kematian</a></li>
                                         </ul>
                                     </div>
                                 </div>

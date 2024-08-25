@@ -63,7 +63,7 @@
                         </li>
 
                         <li>
-                            <a href="gabungan.php" aria-expanded="false"><span class="educate-icon educate-landing icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Data Gabungan</span></a>
+                            <a href="gabungan.php" aria-expanded="false"><span class="educate-icon educate-landing icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Data Penerbitan</span></a>
                         </li>
                         <li>
                             <a href="kategori.php" aria-expanded="false"><span class="educate-icon educate-landing icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Data Kategori</span></a>

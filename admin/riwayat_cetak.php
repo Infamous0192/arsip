@@ -101,7 +101,7 @@ function getMonthName($monthNumber)
                             <tr>
                                 <td><?= $no++; ?></td>
                                 <td><?= $row['riwayat_waktu']; ?></td>
-                                <td><?= $row['user_name']; ?></td>
+                                <td><?= $row['user_nama']; ?></td>
                                 <td><?= $row['arsip_nama']; ?></td>
                             </tr>
                     </tbody>
